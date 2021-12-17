@@ -1,0 +1,44 @@
+syntax = "proto2";
+
+package blockchain;
+
+import "block.proto";
+
+option cc_generic_services = true;
+
+service ConsenNode {
+    rpc SendMsg(RpcMsg) returns(RpcMsg){}
+    rpc SendTxToConsenNode(TxMsg) returns(ConsenNodeResponse){}
+    rpc GetTxFromFollower(LeaderRequest) returns(TxsFromFollower){}
+    rpc SendBlockToOtherNode(blockchain.block) returns(FollowerResponse){}
+}
+
+message RpcMsg {
+    // 0=heartbeat,1=vote rquest,2=vote response
+    required uint32 type = 1;
+    optional blockchain.block block_msg = 2;
+    optional uint32 session = 3;
+    optional string host_address = 4;
+    optional bool aggree = 5;
+}
+
+message TxMsg {
+    required blockchain.tx tx_msg = 1;
+    required string host_address = 2;
+}
+
+message LeaderRequest {
+    required string host_address = 1;
+}
+
+message FollowerResponse {
+    required string host_address = 1;
+}
+
+message TxsFromFollower {
+    repeated blockchain.tx txs = 1;
+}
+
+message ConsenNodeResponse {
+    required bool sueecss = 1;
+}

@@ -1,0 +1,44 @@
+syntax = "proto2";
+
+package blockchain;
+
+option cc_generic_services = true;
+
+message integrated_value {
+    optional string value = 1;
+    optional uint32 blcok_number = 2;
+    required uint32 version = 3;
+}
+
+message kv_pair {
+    required string key = 1;
+    required integrated_value value = 2;
+}
+
+message rwset {
+    repeated kv_pair rd_set = 1;
+    repeated kv_pair wt_set = 2;
+}
+
+message tx {
+    optional rwset tx_content = 1;
+    required uint64 timestamp = 2;
+    repeated string signatures = 3;
+}
+
+message header {
+    required string pre_hash = 1;
+    required string cur_hash = 2;
+    required uint32 number = 3;
+}
+
+message body {
+    repeated tx txs = 1;
+}
+
+message block {
+    required header block_header = 1;
+    required body block_body = 2;
+    required string signature = 3;
+    
+}

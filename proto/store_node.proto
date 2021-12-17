@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package blockchain;
+
+import "block.proto";
+
+option cc_generic_services = true;
+
+service StoreNode {
+    rpc SendBlockToStoreNode(blockchain.block) returns(BlockReceived){}
+    rpc ReceivedBlockBefore(NewBlockMsg) returns(BlockReceived){}
+}
+
+message BlockReceived {
+    required bool has_received = 1;
+}
+
+message NewBlockMsg {
+    required uint32 number = 1;
+    optional string pre_hash = 2;
+}

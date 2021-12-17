@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package blockchain;
+
+option cc_generic_services = true;
+
+service Identity {
+  rpc GetCAPubKey (CAPubKeyRequest) returns (CAPubKeyReply) {}
+  rpc ApplyPubKeyCert (ApplyPubKeyCertRequest) returns (ApplyPubKeyCertReply) {}
+}
+
+message CAPubKeyRequest {
+    required string host_name = 1;
+}
+
+message CAPubKeyReply {
+    required string pub_key = 1;
+}
+
+message ApplyPubKeyCertRequest {
+    required string host_name = 1;
+    required string pub_key = 2;
+}
+
+message ApplyPubKeyCertReply {
+    required ApplyPubKeyCertRequest request = 1;
+    required string request_md5 = 2;
+    required string ca_signature = 3;
+}
+
